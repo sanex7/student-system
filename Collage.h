@@ -1,20 +1,19 @@
 #ifndef COLLAGE_H
 #define COLLAGE_H
 
-#include <iostream>
+#include "ISerializable.h"
 #include "Contact.h"
+#include <string>
 
-class Collage {
+class Collage : public ISerializable {
 private:
     Contact contact;
-    char* name;
-
+    std::string name;
 public:
-    Collage(const Contact& contact, const char* name);
-
-    ~Collage();
-
-    void Show() const;
+    Collage(const Contact& contact = Contact(), const std::string& name = "");
+    
+    std::ostream& Serialize(std::ostream& output) const override;
+    std::istream& Deserialize(std::istream& input) override;
 };
 
-#endif
+#endif // COLLAGE_H
