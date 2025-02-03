@@ -1,16 +1,17 @@
 #include "Collage.h"
+#include <iostream>
 
-Collage::Collage(const Contact& contact, const char* name)
-    : contact(contact) {
-    this->name = new char[strlen(name) + 1];
-    strcpy(this->name, name);
+Collage::Collage(const Contact& contact, const std::string& name)
+    : contact(contact), name(name) {}
+
+std::ostream& Collage::Serialize(std::ostream& output) const {
+    output << name << std::endl;
+    contact.Serialize(output);
+    return output;
 }
 
-Collage::~Collage() {
-    delete[] name;
-}
-
-void Collage::Show() const {
-    std::cout << "Collage Name: " << name << std::endl;
-    contact.Show();
+std::istream& Collage::Deserialize(std::istream& input) {
+    std::getline(input, name);
+    contact.Deserialize(input);
+    return input;
 }
