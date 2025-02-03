@@ -1,13 +1,14 @@
-#include "Contact.h"
-#include "Collage.h"
-#include "Student.h"
+#include "String.h"
+#include <iostream>
 
 int main() {
-    Contact contact("123-456-7890", "Kyiv", "Ukraine");
-    Collage collage(contact, "Kyiv Polytechnic Institute");
-    Student student("Ivan Petrov", "2000-01-01", contact, collage);
-
-    student.Show();
-
+    String str("Hello, world!");
+    str.Serialize();
+    
+    String newStr;
+    std::cout << "Enter a string: ";
+    newStr.Deserialize();
+    newStr.Serialize();
+    
     return 0;
 }
