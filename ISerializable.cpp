@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 class ISerializable {
 public:
@@ -29,25 +30,38 @@ public:
     }
 };
 
-class TestSerializable : public ISerializable {
+class String : public ISerializable {
 private:
-    int data;
+    char* str;
+    size_t size;
 public:
-    TestSerializable(int val = 0) : data(val) {}
+    String(const char* input = "") {
+        size = std::strlen(input);
+        str = new char[size + 1];
+        std::strcpy(str, input);
+    }
+    
+    ~String() {
+        delete[] str;
+    }
     
     std::ostream& Serialize(std::ostream& output) const override {
-        output << data << std::endl;
+        output << size << " " << str << std::endl;
         return output;
     }
     
     std::istream& Deserialize(std::istream& input) override {
-        input >> data;
+        delete[] str;
+        input >> size;
+        input.ignore();
+        str = new char[size + 1];
+        input.getline(str, size + 1);
         return input;
     }
 };
 
 int main() {
-    TestSerializable obj(42);
+    String obj("Hello, World!");
     obj.Serialize();
     return 0;
 }
