@@ -1,23 +1,22 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include <iostream>
+#include "ISerializable.h"
 #include "Contact.h"
 #include "Collage.h"
+#include <string>
 
-class Student {
+class Student : public ISerializable {
 private:
-    char* fullName;
-    char* birthDate;
+    std::string fullName;
+    std::string birthDate;
     Contact contact;
     Collage collage;
-
 public:
-    Student(const char* fullName, const char* birthDate, const Contact& contact, const Collage& collage);
-
-    ~Student();
-
-    void Show() const;
+    Student(const std::string& fullName = "", const std::string& birthDate = "", const Contact& contact = Contact(), const Collage& collage = Collage());
+    
+    std::ostream& Serialize(std::ostream& output) const override;
+    std::istream& Deserialize(std::istream& input) override;
 };
 
 #endif
