@@ -1,21 +1,19 @@
 #include "Student.h"
 
-Student::Student(const char* fullName, const char* birthDate, const Contact& contact, const Collage& collage)
-    : contact(contact), collage(collage) {
-    this->fullName = new char[strlen(fullName) + 1];
-    strcpy(this->fullName, fullName);
+Student::Student(const std::string& fullName, const std::string& birthDate, const Contact& contact, const Collage& collage)
+    : fullName(fullName), birthDate(birthDate), contact(contact), collage(collage) {}
 
-    this->birthDate = new char[strlen(birthDate) + 1];
-    strcpy(this->birthDate, birthDate);
+std::ostream& Student::Serialize(std::ostream& output) const {
+    output << fullName << "\n" << birthDate << "\n";
+    contact.Serialize(output);
+    collage.Serialize(output);
+    return output;
 }
 
-Student::~Student() {
-    delete[] fullName;
-    delete[] birthDate;
-}
-
-void Student::Show() const {
-    std::cout << "Full Name: " << fullName << "\nBirth Date: " << birthDate << std::endl;
-    contact.Show();
-    collage.Show();
+std::istream& Student::Deserialize(std::istream& input) {
+    std::getline(input, fullName);
+    std::getline(input, birthDate);
+    contact.Deserialize(input);
+    collage.Deserialize(input);
+    return input;
 }
