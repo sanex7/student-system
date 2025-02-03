@@ -1,21 +1,19 @@
 #ifndef CONTACT_H
 #define CONTACT_H
 
-#include <cstring>
-#include <iostream>
+#include "ISerializable.h"
+#include <string>
 
-class Contact {
+class Contact : public ISerializable {
 private:
-    char* phone;
-    char* city;
-    char* country;
-
+    std::string phone;
+    std::string city;
+    std::string country;
 public:
-    Contact(const char* phone, const char* city, const char* country);
-
-    ~Contact();
-
-    void Show() const;
+    Contact(const std::string& phone = "", const std::string& city = "", const std::string& country = "");
+    
+    std::ostream& Serialize(std::ostream& output) const override;
+    std::istream& Deserialize(std::istream& input) override;
 };
 
 #endif
